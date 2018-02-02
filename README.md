@@ -1,4 +1,5 @@
-# Ansible Statsd Exporter Role
+Ansible Statsd Exporter Role
+===========
 
 [![Build Status](https://travis-ci.org/ContentWise/ansible-statsd-exporter.svg?branch=master)](https://travis-ci.org/ContentWise/ansible-statsd-exporter)
 
