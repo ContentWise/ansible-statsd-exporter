@@ -1,0 +1,40 @@
+---
+- name: ensure Prometheus exporters directory exist
+  file:
+    path: "{{ statsd_exporter_install_dir }}"
+    state: directory
+
+- name: unarchive Statsd Exporter
+  unarchive:
+    remote_src: yes
+    dest: "{{ statsd_exporter_install_dir }}"
+    src: "{{ statsd_exporter_url }}"
+    creates: "{{ statsd_exporter_binary }}"
+  notify: restart statsd exporter
+
+- name: create symlink to the current release
+  file:
+    src: "{{ statsd_exporter_binary }}"
+    path: "{{ statsd_exporter_symlink }}"
+    state: link
+  notify: restart statsd exporter
+
+- name: create mapping config file
+  copy:
+    content: "{{ statsd_exporter_mapping_config | to_nice_yaml }}"
+    dest: "{{ statsd_exporter_mapping_config_file }}"
+  notify: restart statsd exporter
+
+- name: create systemd script
+  template:
+    src: statsd_exporter.service.j2
+    dest: /etc/systemd/system/statsd_exporter.service
+  notify: restart statsd exporter
+
+- meta: flush_handlers
+
+- name: make sure Statsd Exporter is started
+  service:
+    name: statsd_exporter
+    state: started
+    enabled: yes

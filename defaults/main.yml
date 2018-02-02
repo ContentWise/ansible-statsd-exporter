@@ -1,0 +1,14 @@
+---
+statsd_exporter_install_dir: "/opt/prometheus-exporters/statsd-exporter"
+statsd_exporter_version: "0.6.0"
+statsd_exporter_name: "statsd_exporter-{{ statsd_exporter_version }}.linux-amd64"
+statsd_exporter_url: "https://github.com/prometheus/statsd_exporter/releases/download/v{{ statsd_exporter_version }}/{{ statsd_exporter_name }}.tar.gz"
+statsd_exporter_binary: "{{ statsd_exporter_install_dir }}/{{ statsd_exporter_name }}/statsd_exporter"
+statsd_exporter_symlink: "{{ statsd_exporter_install_dir }}/statsd_exporter"
+statsd_exporter_port: 9102
+statsd_exporter_listen_address: ":{{ statsd_exporter_port }}"
+statsd_exporter_listen_udp: 9125
+statsd_exporter_listen_udp_address: ":{{ statsd_exporter_listen_udp }}"
+statsd_exporter_mapping_config_file: "{{ statsd_exporter_install_dir }}/mapping_config.yml"
+statsd_exporter_mapping_config: # https://github.com/prometheus/statsd_exporter#metric-mapping-and-configuration
+  mappings: []
