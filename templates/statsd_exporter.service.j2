@@ -3,7 +3,7 @@ Description=Statsd Exporter
 After=network.target
 
 [Service]
-ExecStart={{ statsd_exporter_symlink }} -web.listen-address {{ statsd_exporter_listen_address }} -statsd.listen-udp {{ statsd_exporter_listen_udp_address }} -statsd.mapping-config {{ statsd_exporter_mapping_config_file }}
+ExecStart={{ statsd_exporter_symlink }} {% if statsd_exporter_version | version_compare('0.7.0','>=') %}--web.listen-address{% else %}-web.listen-address{% endif %} {{ statsd_exporter_listen_address }} {% if statsd_exporter_version | version_compare('0.7.0','>=') %}--statsd.listen-udp{% else %}-statsd.listen-udp{% endif %} {{ statsd_exporter_listen_udp_address }} {% if statsd_exporter_version | version_compare('0.7.0','>=') %}--statsd.mapping-config{% else %}-statsd.mapping-config{% endif %} {{ statsd_exporter_mapping_config_file }}
 
 [Install]
 WantedBy=multi-user.target
